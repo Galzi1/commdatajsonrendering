@@ -1,14 +1,30 @@
 {
-  "name": "commdatajsonrendering",
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/react-fontawesome": "^0.1.9",
+    "@material-ui/core": "^4.9.11",
+    "all": "0.0.0",
+    "axios": "^0.19.2",
+    "firebase": "^7.14.0",
+    "iohook": "^0.4.0",
+    "leaflet": "^1.4.0",
+    "leaflet-offline": "^1.1.0",
+    "ol": "^5.3.1",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-form-elements": "^4.14.0",
+    "react-hook-mouse": "^1.0.0",
+    "react-hyper-modal": "^1.2.1",
+    "react-modal": "^3.11.2",
+    "react-popout-component": "^1.8.5",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "2.1.8",
+    "rtl-detect": "^1.0.2",
+    "typeface-heebo": "0.0.72"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -19,16 +35,13 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.1"
   }
 }
