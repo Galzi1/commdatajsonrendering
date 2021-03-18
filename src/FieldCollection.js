@@ -39,6 +39,7 @@ export default function FieldCollection(props) {
                 <Table>
                     <TableHead className="bg-primary">
                         <TableRow>
+                            <StyledTableCell align="center" scope="col">#</StyledTableCell>
                             <StyledTableCell align="center" scope="col">שם</StyledTableCell>
                             <StyledTableCell align="center" scope="col">סוג</StyledTableCell>
                             <StyledTableCell align="center" scope="col">האם מערך?</StyledTableCell>
