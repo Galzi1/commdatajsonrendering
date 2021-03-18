@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {StyledTableCell, StyledTableRow} from './TableStyle';
 import './App.css';
 
+const boolToStr = (flag) => {
+    return flag ? "כן" : "לא";
+};
+
 export default function Field(props) {
     const id = props.id;
     const name = props.name;
@@ -29,7 +33,7 @@ export default function Field(props) {
             <StyledTableCell align="center">{id}</StyledTableCell>
             <StyledTableCell align="center">{name}</StyledTableCell>
             <StyledTableCell align="center">{type}</StyledTableCell>
-            <StyledTableCell align="center">{isArray}</StyledTableCell>
+            <StyledTableCell align="center">{boolToStr(isArray)}</StyledTableCell>
             <StyledTableCell align="center">{units}</StyledTableCell>
             <StyledTableCell align="center">{range}</StyledTableCell>
             <StyledTableCell align="center">{scale}</StyledTableCell>
