@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import './App.css';
+import coll from './test_collection.json';
 
 export default function CommDataCollection() {
     const [commDataCollection, setCommDataCollection] = useState([]);
@@ -19,29 +20,6 @@ export default function CommDataCollection() {
       }, []);
 
     const getCommDataCollection = (callback = null) => {
-        var coll = [
-            {
-                id: "0x1234", 
-                name: "Message1", 
-                source: "System1", 
-                destination: "System2", 
-                length: 4, 
-                enums: [], 
-                structs: [], 
-                fields: [
-                    {
-                        name: "Var1", 
-                        type: "Int32", 
-                        isArray: false, 
-                        units: "", 
-                        range: "0-1000", 
-                        scale: "1", 
-                        description: "", 
-                        value: 123
-                    }
-                ]
-            }
-        ]
         setCommDataCollection(coll); //TODO insert actual valid values
     }
 
@@ -58,7 +36,7 @@ export default function CommDataCollection() {
                 fields
             } = commData //destructuring
             return (
-                <CommDataJson id={index} name={name} source={source} destination={destination} length={length} enums={enums} structs={structs} fields={fields}/>
+                <CommDataJson id={id} name={name} source={source} destination={destination} length={length} enums={enums} structs={structs} fields={fields}/>
             )
         })
     }

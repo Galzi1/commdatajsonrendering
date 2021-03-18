@@ -1,0 +1,133 @@
+[
+    {
+        "id": "0x1234", 
+        "name": "Message1", 
+        "source": "System1", 
+        "destination": "System2", 
+        "length": 4, 
+        "enums": [
+            {
+                "name": "E_Mode", 
+                "basetype": "Byte", 
+                "values": [
+                    {
+                        "name": "DISCONNECTED", 
+                        "value": 0
+                    }, 
+                    {
+                        "name": "CONNECTED", 
+                        "value": 1
+                    }, 
+                    {
+                        "name": "PENDING", 
+                        "value": 2
+                    }
+                ]
+            }
+        ], 
+        "structs": [
+            {
+                "name": "S_StructExample", 
+                "length": 5, 
+                "fields": [
+                    {
+                        "name": "PrimInStruct", 
+                        "type": "Int32", 
+                        "isArray": false, 
+                        "units": "", 
+                        "range": "0-1000", 
+                        "scale": "1", 
+                        "description": "A Primitive In Struct Example"
+                    }, 
+                    {
+                        "name": "EnumInStruct", 
+                        "type": "E_Mode", 
+                        "isArray": false, 
+                        "units": "", 
+                        "range": "", 
+                        "scale": "", 
+                        "description": "An Enum In Struct Example"
+                    }, 
+                    {
+                        "name": "ArrayInStruct", 
+                        "type": "Int32", 
+                        "isArray": true, 
+                        "units": "", 
+                        "range": "", 
+                        "scale": "", 
+                        "description": "An Array In Struct Example"
+                    }
+                ]
+            }
+        ], 
+        "fields": [
+            {
+                "name": "Prim1", 
+                "type": "Int32", 
+                "isArray": false, 
+                "units": "", 
+                "range": "0-1000", 
+                "scale": "1", 
+                "description": "A Primitive Example", 
+                "value": 123
+            }, 
+            {
+                "name": "Enum1", 
+                "type": "E_Mode", 
+                "isArray": false, 
+                "units": "", 
+                "range": "", 
+                "scale": "", 
+                "description": "An Enum Example", 
+                "value": 1
+            }, 
+            {
+                "name": "EnumArray1", 
+                "type": "E_Mode", 
+                "isArray": true, 
+                "units": "", 
+                "range": "", 
+                "scale": "", 
+                "description": "An Enum Array Example", 
+                "value": [
+                    0, 2, 1
+                ]
+            }, 
+            {
+                "name": "Struct1", 
+                "type": "S_StructExample", 
+                "isArray": false, 
+                "units": "", 
+                "range": "", 
+                "scale": "", 
+                "description": "A Struct Example", 
+                "value": {
+                    "PrimInStruct": 77, 
+                    "EnumInStruct": 2, 
+                    "ArrayInStruct": [1, 2]
+                }
+            }, 
+            {
+                "name": "StructArray1", 
+                "type": "S_StructExample", 
+                "isArray": true, 
+                "units": "", 
+                "range": "", 
+                "scale": "", 
+                "description": "A Struct Array Example", 
+                "value": [
+                    {
+                        "PrimInStruct": 34531, 
+                        "EnumInStruct": 0, 
+                        "ArrayInStruct": [-1, 0]
+                    }, 
+                    {
+                        "PrimInStruct": -123, 
+                        "EnumInStruct": 1, 
+                        "ArrayInStruct": []
+                    }
+                ]
+            }
+        ]
+    }
+]
