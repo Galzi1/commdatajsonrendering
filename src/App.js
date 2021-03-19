@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import CommDataJsonCollection from './CommDataJsonCollection';
+import CommDataJsonCollection from './Components/CommData/CommDataJsonCollection';
 
 function App() {
   return (

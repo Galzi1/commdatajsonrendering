@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import {StyledTableCell, StyledTableRow} from './TableStyle';
-import './App.css';
+import {StyledTableCell, StyledTableRow} from '../../TableStyle';
+import '../../App.css';
+import FieldViewerWrapper from '../TypeViewers/FieldViewerWrapper';
 
 const boolToStr = (flag) => {
     return flag ? "כן" : "לא";
 };
 
 export default function Field(props) {
+    const field = props.field;
+    const { 
+        name, 
+        type,
+        isArray, 
+        units, 
+        range, 
+        scale, 
+        description, 
+        p_value
+    } = field //destructuring
     const id = props.id;
-    const name = props.name;
-    const type = props.type;
-    const isArray = props.isArray;
-    const units = props.units;
-    const range = props.range;
-    const scale = props.scale;
-    const description = props.description;
-    const p_value = props.value;
     const enums = props.enums;
     const structs = props.structs;
-    const onFieldUpdated = props.onFieldUpdated;
+    const onFieldValueUpdated = props.onFieldValueUpdated;
 
     const [fieldValue, setFieldValue] = useState("");
     
@@ -39,16 +43,10 @@ export default function Field(props) {
             <StyledTableCell align="center">{scale}</StyledTableCell>
             <StyledTableCell align="center">{description}</StyledTableCell>
             <StyledTableCell align="center">
-                <input value={fieldValue} 
-                            onChange={
-                                ({ target: { value } }) => {
-                                    setFieldValue(value);
-                                    onFieldUpdated(name);
-                                }
-                            } type="text" className="form-control form-control-sm" placeholder="תקציר התקלה"/>
+                <FieldViewerWrapper field={field} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>
             </StyledTableCell>
         </StyledTableRow>
     )
 }
 
-//id={index} name={name} type={type} isArray={isArray} units={units} range={range} scale={scale} description={description} value={value} enums={enums} structs={structs} onFieldUpdated={onFieldUpdated}
+//id={index} name={name} type={type} isArray={isArray} units={units} range={range} scale={scale} description={description} value={value} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}

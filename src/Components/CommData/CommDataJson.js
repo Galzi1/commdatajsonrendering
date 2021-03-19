@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {StyledTableCell, StyledTableRow} from './TableStyle';
-import FieldCollection from './FieldCollection';
-import './App.css';
+import {StyledTableCell, StyledTableRow} from '../../TableStyle';
+import FieldCollection from '../Field/FieldCollection';
+import '../../App.css';
 
 export default function CommDataJson(props) {
     const id = props.id;
@@ -21,7 +21,7 @@ export default function CommDataJson(props) {
         }
     }, [fields]);
 
-    const onFieldUpdated = (fieldName) => {
+    const onFieldValueUpdated = (fieldName) => {
         const field = fields.find(element => element.name === fieldName);
         console.log(field);
         //Adjust to length
@@ -35,7 +35,7 @@ export default function CommDataJson(props) {
             <StyledTableCell align="center">{destination}</StyledTableCell>
             <StyledTableCell align="center">{length}</StyledTableCell>
             <StyledTableCell align="center">
-                <FieldCollection enums={enums} structs={structs} fields={commDataFields} setFields={setCommDataFields} onFieldUpdated={onFieldUpdated}/>
+                <FieldCollection enums={enums} structs={structs} fields={commDataFields} setFields={setCommDataFields} onFieldValueUpdated={onFieldValueUpdated}/>
             </StyledTableCell>
         </StyledTableRow>
     )

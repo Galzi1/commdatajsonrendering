@@ -1,13 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import CommDataJson from './CommDataJson';
-import {StyledTableCell, TableWrapperStyle} from './TableStyle';
+import {StyledTableCell, TableWrapperStyle} from '../../TableStyle';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import './App.css';
-import coll from './test_collection.json';
+import '../../App.css';
+import coll from '../../test_collection.json';
 
 export default function CommDataCollection() {
     const [commDataCollection, setCommDataCollection] = useState([]);
