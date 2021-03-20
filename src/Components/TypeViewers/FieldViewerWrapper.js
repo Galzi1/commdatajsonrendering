@@ -1,9 +1,6 @@
 import React from 'react';
-import NullViewer from './NullViewer';
-import PrimitiveViewer from './PrimitiveViewer';
-import EnumViewer from './EnumViewer';
-import ArrayViewer from './ArrayViewer';
-import StructViewer from './StructViewer';
+import fieldViewerFactory from './FieldViewerFactory';
+
 import {isPrimitive, getEnumIndex, getStructIndex} from '../../Utils/TypesUtils';
 
 export default function FieldViewerWrapper(props) {
@@ -22,28 +19,28 @@ export default function FieldViewerWrapper(props) {
 
     const renderFieldViewer = (_field) => {
         if (Object.is(_field, undefined) || Object.is(_field, null)) {
-            return (<NullViewer/>);
+            return fieldViewerFactory("null");
         }
         else if (_field.isArray) {
-            return (<ArrayViewer field={field} onFieldValueUpdated={onFieldValueUpdated}/>);
+            return fieldViewerFactory("array", field, onFieldValueUpdated, undefined, enums, structs);
         }
         else if (isPrimitive(_field.type)) {
-            return (<PrimitiveViewer field={field} onFieldValueUpdated={onFieldValueUpdated}/>)
+            return fieldViewerFactory("primitive", field, onFieldValueUpdated);
         }
         else {
             const enumIndex = getEnumIndex(enums, _field.type);
             if (enumIndex > -1) {
                 const enumType = enums[enumIndex];
-                return (<EnumViewer field={field} enumType={enumType} onFieldValueUpdated={onFieldValueUpdated}/>);
+                return fieldViewerFactory("enum", field, onFieldValueUpdated, enumType);
             }
             else {
                 const structIndex = getStructIndex(structs, _field.type);
                 if (structIndex > -1) {
                     const structType = structs[structIndex];
-                    return (<StructViewer field={field} structType={structType} onFieldValueUpdated={onFieldValueUpdated}/>);
+                    return fieldViewerFactory("struct", field, onFieldValueUpdated, structType);
                 }
                 else {
-                    return (<NullViewer/>);
+                    return fieldViewerFactory("null");
                 }
             }
         }
