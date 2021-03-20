@@ -1,6 +1,6 @@
-export const integerTypes = ["byte", "sbyte", "int16", "uint16", "int32", "uint32", "int64", "uint64"]
-export const floatTypes = ["float", "double"]
-export const textTypes = ["char", "string"]
+export const integerTypes = ["byte", "sbyte", "int16", "uint16", "int32", "uint32", "int64", "uint64"];
+export const floatTypes = ["float", "double"];
+export const textTypes = ["char", "string"];
 
 export const isInteger = (type) => {
     const lowerCasedType = type.toLowerCase();
@@ -39,8 +39,8 @@ const getIndexInCollection = (coll, target) => {
 
 export const getEnumIndex = (enums, type) => {
     return getIndexInCollection(enums, type);
-}
+};
 
 export const getStructIndex = (structs, type) => {
     return getIndexInCollection(structs, type);
-}
+};

@@ -25,22 +25,22 @@ export default function FieldViewerWrapper(props) {
             return (<NullViewer/>);
         }
         else if (_field.isArray) {
-            return (<ArrayViewer field={field}/>);
+            return (<ArrayViewer field={field} onFieldValueUpdated={onFieldValueUpdated}/>);
         }
         else if (isPrimitive(_field.type)) {
-            return (<PrimitiveViewer field={field}/>)
+            return (<PrimitiveViewer field={field} onFieldValueUpdated={onFieldValueUpdated}/>)
         }
         else {
             const enumIndex = getEnumIndex(enums, _field.type);
             if (enumIndex > -1) {
                 const enumType = enums[enumIndex];
-                return (<EnumViewer field={field} enumType={enumType}/>);
+                return (<EnumViewer field={field} enumType={enumType} onFieldValueUpdated={onFieldValueUpdated}/>);
             }
             else {
                 const structIndex = getStructIndex(structs, _field.type);
                 if (structIndex > -1) {
                     const structType = structs[structIndex];
-                    return (<StructViewer field={field} structType={structType}/>);
+                    return (<StructViewer field={field} structType={structType} onFieldValueUpdated={onFieldValueUpdated}/>);
                 }
                 else {
                     return (<NullViewer/>);

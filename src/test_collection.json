@@ -68,9 +68,29 @@
                 "units": "", 
                 "range": "0-1000", 
                 "scale": "1", 
-                "description": "A Primitive Example", 
+                "description": "An Int32 Example", 
                 "value": 123
             }, 
+            {
+                "name": "Prim2", 
+                "type": "String", 
+                "isArray": false, 
+                "units": "", 
+                "range": "", 
+                "scale": "", 
+                "description": "A String Example", 
+                "value": "XYZ"
+            },
+            {
+                "name": "Prim3", 
+                "type": "Float", 
+                "isArray": false, 
+                "units": "", 
+                "range": "0-100.0", 
+                "scale": "0.1", 
+                "description": "A Float Example", 
+                "value": 2.1
+            },
             {
                 "name": "Enum1", 
                 "type": "E_Mode", 
