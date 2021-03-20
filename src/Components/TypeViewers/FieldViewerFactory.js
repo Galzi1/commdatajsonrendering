@@ -15,7 +15,7 @@ export default function fieldViewerFactory(fieldType, field = undefined,
         case "array":
             return (<ArrayViewer field={field} onFieldValueUpdated={onFieldValueUpdated} enums={enums} structs={structs}/>);
         case "struct":
-            return (<StructViewer field={field} structType={referencedType} onFieldValueUpdated={onFieldValueUpdated}/>);
+            return (<StructViewer field={field} structType={referencedType} onFieldValueUpdated={onFieldValueUpdated} enums={enums} structs={structs}/>);
         default:
             return (<NullViewer/>);
     }

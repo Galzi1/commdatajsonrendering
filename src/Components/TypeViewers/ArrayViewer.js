@@ -41,9 +41,9 @@ export default function ArrayViewer(props) {
         return ret;
     };
 
-    const renderValues = (field) => {
-        if (!(Object.is(innerFields, undefined) || Object.is(innerFields, null)) && Array.isArray(values)) {
-            const ret = innerFields.map((innerField) => {
+    const renderValues = (_innerFields) => {
+        if (!(Object.is(_innerFields, undefined) || Object.is(_innerFields, null)) && Array.isArray(values)) {
+            const ret = _innerFields.map((innerField) => {
                 return (<FieldViewerWrapper field={innerField} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>)
             });
             return ret;
@@ -54,7 +54,7 @@ export default function ArrayViewer(props) {
 
     return (
         <div id="array-viewer-div">
-            {renderValues(field)}
+            {renderValues(innerFields)}
         </div>
     )
 }
