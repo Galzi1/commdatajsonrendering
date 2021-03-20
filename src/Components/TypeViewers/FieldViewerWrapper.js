@@ -37,7 +37,7 @@ export default function FieldViewerWrapper(props) {
                 const structIndex = getStructIndex(structs, _field.type);
                 if (structIndex > -1) {
                     const structType = structs[structIndex];
-                    return fieldViewerFactory("struct", field, onFieldValueUpdated, structType);
+                    return fieldViewerFactory("struct", field, onFieldValueUpdated, structType, enums, structs);
                 }
                 else {
                     return fieldViewerFactory("null");
