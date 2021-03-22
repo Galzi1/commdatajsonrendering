@@ -1,22 +1,112 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import NullViewer from './NullViewer';
+import FieldViewerWrapper from './FieldViewerWrapper';
 
 export default function StructViewer(props) {
     const field = props.field;
-    // "name": "Prim1", 
-    // "type": "Int32", 
+    // "name": "Struct1", 
+    // "type": "S_StructExample", 
     // "isArray": false, 
     // "units": "", 
-    // "range": "0-1000", 
-    // "scale": "1", 
-    // "description": "A Primitive Example", 
-    // "value": 123
+    // "range": "", 
+    // "scale": "", 
+    // "description": "A Struct Example", 
+    // "value": {
+    //     "PrimInStruct": 77, 
+    //     "EnumInStruct": 2, 
+    //     "ArrayInStruct": [1, 2]
+    // }
+    const structType = props.structType;
+    // "name": "S_StructExample", 
+    // "length": 5, 
+    // "fields": [
+    //     {
+    //         "name": "PrimInStruct", 
+    //         "type": "Int32", 
+    //         "isArray": false, 
+    //         "units": "", 
+    //         "range": "0-1000", 
+    //         "scale": "1", 
+    //         "description": "A Primitive In Struct Example"
+    //     }, 
+    //     {
+    //         "name": "EnumInStruct", 
+    //         "type": "E_Mode", 
+    //         "isArray": false, 
+    //         "units": "", 
+    //         "range": "", 
+    //         "scale": "", 
+    //         "description": "An Enum In Struct Example"
+    //     }, 
+    //     {
+    //         "name": "ArrayInStruct", 
+    //         "type": "Int32", 
+    //         "isArray": true, 
+    //         "units": "", 
+    //         "range": "", 
+    //         "scale": "", 
+    //         "description": "An Array In Struct Example"
+    //     }
+    // ]
+    const structFields = structType.fields;
     const onFieldValueUpdated = props.onFieldValueUpdated;
+    const enums = props.enums;
+    const structs = props.structs;
+    const values = field.value;
+    const [innerValues, setInnerValues] = useState([]);
 
-    const [value, setValue] = useState(field.value);
+    useEffect(() => {
+        setInnerValues(buildInnerValues(structFields, values));
+    }, [structFields, values]);
+
+    const buildInnerValues = (fields, values) => {
+        if (Array.isArray(fields) && fields.length === Object.keys(values).length) {
+            const ret = [];
+            for (let i = 0; i < fields.length; i++) {
+                const f = fields[i];
+                const { 
+                    name, 
+                    type,
+                    isArray, 
+                    units, 
+                    range, 
+                    scale, 
+                    description
+                } = f //destructuring
+
+                const v = values[name];
+                if (Object.is(v, undefined) || Object.is(v, null)) {
+                    break;
+                }
+
+                const newFieldValue = { name: name, type: type, 
+                    isArray: isArray, units: units, range: range, scale: scale, 
+                    description: description + " name", value: v 
+                }
+                
+                ret.push(newFieldValue);
+            }
+            
+            return ret;
+        }
+
+        return (<NullViewer/>);
+    };
+
+    const renderValues = (_innerValues) => {
+        if (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues)) {
+            const ret = _innerValues.map((innerValue) => {
+                return (<FieldViewerWrapper field={innerValue} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>)
+            });
+            return ret;
+        }
+
+        return <NullViewer/>;
+    };
 
     return (
         <div id="struct-viewer-div">
-            {field.type}
+            {renderValues(innerValues)}
         </div>
     )
 }
