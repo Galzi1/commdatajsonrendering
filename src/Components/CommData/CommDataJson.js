@@ -24,9 +24,12 @@ export default function CommDataJson(props) {
 
     const onFieldValueUpdated = (fieldName, newValue) => {
         const fieldIndex = fields.findIndex(element => element.name === fieldName);
-        const field = fields[fieldIndex];
-        field['value'] = newValue;
-        //TODO: Adjust to length
+        if (fieldIndex >= 0) {
+            const field = fields[fieldIndex];
+            field['value'] = newValue;
+            //TODO: Adjust to length
+        }
+        
     };
 
     const getCommDataObject = () => {

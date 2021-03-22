@@ -47,14 +47,15 @@ export default function EnumViewer(props) {
     };
 
     const onEnumValueChanged = (enumValue) => {
+        console.log(enumValue);
         setCurrValue(enumValue.value);
-        onFieldValueUpdated();
+        onFieldValueUpdated(field.name, enumValue);
     };
 
     return (
         <div id="enum-viewer-div">
             <select value={currValue} 
-            onChange={onEnumValueChanged} 
+            onChange={e => onEnumValueChanged(e.target.value)} 
             className="form-control form-control-sm">
             {
                 enumOptions.map((enumOption, index) =>
