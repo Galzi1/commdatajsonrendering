@@ -41,7 +41,7 @@ export default function PrimitiveViewer(props) {
             onChange={
                 ({ target: { value } }) => {
                     setValue(value);
-                    onFieldValueUpdated(field.name);
+                    onFieldValueUpdated(field.name, value);
                 }
             } type={inputType} step={inputStep} className="form-control form-control-sm" placeholder=""/>
     );

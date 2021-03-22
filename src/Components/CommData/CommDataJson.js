@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {StyledTableCell, StyledTableRow} from '../../TableStyle';
 import FieldCollection from '../Field/FieldCollection';
 import '../../App.css';
+import shortid from 'shortid';
 
 export default function CommDataJson(props) {
     const id = props.id;
@@ -21,14 +22,40 @@ export default function CommDataJson(props) {
         }
     }, [fields]);
 
-    const onFieldValueUpdated = (fieldName) => {
-        const field = fields.find(element => element.name === fieldName);
-        console.log(field);
-        //Adjust to length
+    const onFieldValueUpdated = (fieldName, newValue) => {
+        const fieldIndex = fields.findIndex(element => element.name === fieldName);
+        const field = fields[fieldIndex];
+        field['value'] = newValue;
+        //TODO: Adjust to length
+    };
+
+    const getCommDataObject = () => {
+        const ret = {};
+        ret['id'] = id;
+        ret['name'] = name;
+        ret['source'] = source;
+        ret['destination'] = destination;
+        ret['length'] = length;
+        ret['enums'] = enums;
+        ret['structs'] = structs;
+        ret['fields'] = commDataFields;
+
+        return ret;
+    };
+
+    const sendButtonClick = (e) => {
+        e.preventDefault();
+        const commDataObj = getCommDataObject();
+        console.log(JSON.stringify(commDataObj));
     };
     
     return (
-        <StyledTableRow key={id}>
+        <StyledTableRow key={shortid.generate()}>
+            <StyledTableCell className="btn btn-default">
+                <button onClick={sendButtonClick}>
+                    שלח
+                </button>
+            </StyledTableCell>
             <StyledTableCell align="center">{id}</StyledTableCell>
             <StyledTableCell align="center">{name}</StyledTableCell>
             <StyledTableCell align="center">{source}</StyledTableCell>

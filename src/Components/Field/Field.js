@@ -24,14 +24,6 @@ export default function Field(props) {
     const structs = props.structs;
     const onFieldValueUpdated = props.onFieldValueUpdated;
 
-    const [fieldValue, setFieldValue] = useState("");
-    
-    useEffect(() => {
-        if (p_value) {
-            setFieldValue(p_value);
-        }
-    }, [p_value]);
-
     return (
         <StyledTableRow key={id}>
             <StyledTableCell align="center">{id}</StyledTableCell>
