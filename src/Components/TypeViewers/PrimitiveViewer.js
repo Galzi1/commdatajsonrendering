@@ -13,6 +13,7 @@ export default function PrimitiveViewer(props) {
     // "description": "A Primitive Example", 
     // "value": 123
     const onFieldValueUpdated = props.onFieldValueUpdated;
+    const arrayIndex = props.arrayIndex;
 
     const [value, setValue] = useState(field.value);
     const [inputType, setInputType] = useState("text");
@@ -41,7 +42,7 @@ export default function PrimitiveViewer(props) {
             onChange={
                 ({ target: { value } }) => {
                     setValue(value);
-                    onFieldValueUpdated(field.name, value);
+                    onFieldValueUpdated(field.name, value, {"index": arrayIndex});
                 }
             } type={inputType} step={inputStep} className="form-control form-control-sm" placeholder=""/>
     );
