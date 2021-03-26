@@ -16,28 +16,29 @@ export default function FieldViewerWrapper(props) {
     const enums = props.enums;
     const structs = props.structs;
     const onFieldValueUpdated = props.onFieldValueUpdated;
+    const arrayIndex = props.arrayIndex;
 
     const renderFieldViewer = (_field) => {
         if (Object.is(_field, undefined) || Object.is(_field, null)) {
             return fieldViewerFactory("null");
         }
         else if (_field.isArray) {
-            return fieldViewerFactory("array", field, onFieldValueUpdated, undefined, enums, structs);
+            return fieldViewerFactory("array", field, onFieldValueUpdated, undefined, enums, structs, arrayIndex);
         }
         else if (isPrimitive(_field.type)) {
-            return fieldViewerFactory("primitive", field, onFieldValueUpdated);
+            return fieldViewerFactory("primitive", field, onFieldValueUpdated, undefined, undefined, undefined, arrayIndex);
         }
         else {
             const enumIndex = getEnumIndex(enums, _field.type);
             if (enumIndex > -1) {
                 const enumType = enums[enumIndex];
-                return fieldViewerFactory("enum", field, onFieldValueUpdated, enumType);
+                return fieldViewerFactory("enum", field, onFieldValueUpdated, enumType, undefined, undefined, arrayIndex);
             }
             else {
                 const structIndex = getStructIndex(structs, _field.type);
                 if (structIndex > -1) {
                     const structType = structs[structIndex];
-                    return fieldViewerFactory("struct", field, onFieldValueUpdated, structType, enums, structs);
+                    return fieldViewerFactory("struct", field, onFieldValueUpdated, structType, enums, structs, arrayIndex);
                 }
                 else {
                     return fieldViewerFactory("null");

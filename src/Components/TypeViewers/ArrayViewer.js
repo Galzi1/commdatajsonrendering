@@ -18,6 +18,8 @@ export default function ArrayViewer(props) {
     const enums = props.enums;
     const structs = props.structs;
     const values = field.value;
+    const arrayIndex = props.arrayIndex;
+    
     const [innerFields, setInnerFields] = useState([]);
 
     useEffect(() => {
@@ -41,10 +43,27 @@ export default function ArrayViewer(props) {
         return ret;
     };
 
+    const onArrayValueUpdated = (fieldName, newValue, params = undefined) => {
+        let index = -1;
+        if (!(Object.is(params, undefined) || Object.is(params, null))) {
+            index = params['index'];
+        }
+
+        if (index >= 0 && index < values.length) {
+            values[index] = parseInt(newValue);
+            //TODO: Adjust to length
+
+            if (!(Object.is(onFieldValueUpdated, undefined) || Object.is(onFieldValueUpdated, null))) {
+                onFieldValueUpdated(field.name, values, {"index": arrayIndex})
+            }
+        }
+    };
+
     const renderValues = (_innerFields) => {
         if (!(Object.is(_innerFields, undefined) || Object.is(_innerFields, null)) && Array.isArray(values)) {
-            const ret = _innerFields.map((innerField) => {
-                return (<FieldViewerWrapper field={innerField} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>)
+            const ret = _innerFields.map((innerField, index) => {
+                const wrapper = (<FieldViewerWrapper field={innerField} enums={enums} structs={structs} onFieldValueUpdated={onArrayValueUpdated} arrayIndex={index}/>);
+                return wrapper;
             });
             return ret;
         }

@@ -22,7 +22,7 @@ export default function CommDataJson(props) {
         }
     }, [fields]);
 
-    const onFieldValueUpdated = (fieldName, newValue) => {
+    const onFieldValueUpdated = (fieldName, newValue, params = undefined) => {
         const fieldIndex = fields.findIndex(element => element.name === fieldName);
         if (fieldIndex >= 0) {
             const field = fields[fieldIndex];

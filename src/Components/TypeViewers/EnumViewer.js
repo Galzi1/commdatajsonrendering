@@ -32,6 +32,7 @@ export default function EnumViewer(props) {
     //     }
     // ]
     const onFieldValueUpdated = props.onFieldValueUpdated;
+    const arrayIndex = props.arrayIndex;
 
     const [currValue, setCurrValue] = useState(field.value);
     const [enumOptions, setEnumOptions] = useState([]);
@@ -47,9 +48,8 @@ export default function EnumViewer(props) {
     };
 
     const onEnumValueChanged = (enumValue) => {
-        console.log(enumValue);
-        setCurrValue(enumValue.value);
-        onFieldValueUpdated(field.name, enumValue);
+        setCurrValue(parseInt(enumValue));
+        onFieldValueUpdated(field.name, enumValue, {"index": arrayIndex});
     };
 
     return (
