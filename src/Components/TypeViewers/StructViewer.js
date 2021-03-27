@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import FieldViewerWrapper from './FieldViewerWrapper';
+import {getIndexInCollection} from '../../Utils/GeneralUtils';
 
 export default function StructViewer(props) {
     const field = props.field;
@@ -52,7 +53,9 @@ export default function StructViewer(props) {
     const onFieldValueUpdated = props.onFieldValueUpdated;
     const enums = props.enums;
     const structs = props.structs;
+    const arrayIndex = props.arrayIndex;
     const values = field.value;
+
     const [innerValues, setInnerValues] = useState([]);
 
     useEffect(() => {
@@ -81,7 +84,7 @@ export default function StructViewer(props) {
 
                 const newFieldValue = { name: name, type: type, 
                     isArray: isArray, units: units, range: range, scale: scale, 
-                    description: description + " name", value: v 
+                    description: description, value: v 
                 }
                 
                 ret.push(newFieldValue);
@@ -93,10 +96,27 @@ export default function StructViewer(props) {
         return (<NullViewer/>);
     };
 
+    const onStructValueUpdated = (fieldName, newValue, param = undefined) => {
+        // if (Array.isArray(innerValues)) {
+        //     const valueIndex = getIndexInCollection(innerValues, 'name', fieldName);
+        //     if (valueIndex >= 0) {
+                
+        //     }
+        // }
+        if (!(Object.is(values, undefined) || Object.is(values, null)) 
+        && values.hasOwnProperty(fieldName)) {
+            values[fieldName] = newValue;
+        };
+
+        if (!(Object.is(onFieldValueUpdated, undefined) || Object.is(onFieldValueUpdated, null))) {
+            onFieldValueUpdated(field.name, values, {"index": arrayIndex})
+        }
+    };
+
     const renderValues = (_innerValues) => {
         if (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues)) {
             const ret = _innerValues.map((innerValue) => {
-                return (<FieldViewerWrapper field={innerValue} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>)
+                return (<FieldViewerWrapper field={innerValue} enums={enums} structs={structs} onFieldValueUpdated={onStructValueUpdated}/>)
             });
             return ret;
         }

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {isNumber, isFloat} from '../../Utils/TypesUtils';
+import {isNumber, isFloat, convertString} from '../../Utils/TypesUtils';
 import {isStringNumeric} from '../../Utils/GeneralUtils';
 import PrimitiveViewer from './PrimitiveViewer';
 import shortid from 'shortid';
@@ -48,8 +48,9 @@ export default function EnumViewer(props) {
     };
 
     const onEnumValueChanged = (enumValue) => {
-        setCurrValue(parseInt(enumValue));
-        onFieldValueUpdated(field.name, enumValue, {"index": arrayIndex});
+        const convertedValue = convertString(enumValue, enumType.basetype);
+        setCurrValue(convertedValue);
+        onFieldValueUpdated(field.name, convertedValue, {"index": arrayIndex});
     };
 
     return (

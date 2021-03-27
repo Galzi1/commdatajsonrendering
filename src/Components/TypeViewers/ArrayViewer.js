@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import FieldViewerWrapper from './FieldViewerWrapper';
+import {convertString} from '../../Utils/GeneralUtils';
 
 export default function ArrayViewer(props) {
     const field = props.field;
@@ -47,16 +48,18 @@ export default function ArrayViewer(props) {
         let index = -1;
         if (!(Object.is(params, undefined) || Object.is(params, null))) {
             index = params['index'];
-        }
+        };
 
-        if (index >= 0 && index < values.length) {
-            values[index] = parseInt(newValue);
+        if (!(Object.is(index, undefined) || Object.is(index, null)) 
+        && index >= 0 && index < values.length) {
+            // values[index] = convertString(newValue, field.type);
+            values[index] = newValue;
             //TODO: Adjust to length
 
             if (!(Object.is(onFieldValueUpdated, undefined) || Object.is(onFieldValueUpdated, null))) {
                 onFieldValueUpdated(field.name, values, {"index": arrayIndex})
             }
-        }
+        };
     };
 
     const renderValues = (_innerFields) => {
