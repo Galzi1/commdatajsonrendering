@@ -1,3 +1,5 @@
+import {isStringNumeric, getIndexInCollection} from './GeneralUtils';
+
 export const integerTypes = ["byte", "sbyte", "int16", "uint16", "int32", "uint32", "int64", "uint64"];
 export const floatTypes = ["float", "double"];
 export const textTypes = ["char", "string"];
@@ -25,22 +27,32 @@ export const isPrimitive = (type) => {
     return isNumber(type) || isText(type);
 };
 
-const getIndexInCollection = (coll, target) => {
-    if (!(Object.is(coll, undefined) || Object.is(coll, null)) && Array.isArray(coll)) {
-        for (let i = 0; i < coll.length; i++) {
-            const element = coll[i];
-            if (!(Object.is(element, undefined) || Object.is(element, null)) && element.name === target) {
-                return i;
+export const convertString = (str, type) => {
+    if (typeof str === 'string' || str instanceof String) {
+        if (isNumber(type) && isStringNumeric(str)) {
+            if (isInteger(type)) {
+                return parseInt(str);
+            }
+            else if (isFloat(type)) {
+                return parseFloat(str);
+            }
+            else {
+                return str;
             }
         }
-        return -1;
+        else {
+            return str;
+        }
+    }
+    else {
+        return str;
     }
 };
 
 export const getEnumIndex = (enums, type) => {
-    return getIndexInCollection(enums, type);
+    return getIndexInCollection(enums, 'name', type);
 };
 
 export const getStructIndex = (structs, type) => {
-    return getIndexInCollection(structs, type);
+    return getIndexInCollection(structs, 'name', type);
 };

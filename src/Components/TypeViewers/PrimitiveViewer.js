@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {isNumber, isFloat} from '../../Utils/TypesUtils';
+import {isNumber, isFloat, convertString} from '../../Utils/TypesUtils';
 import {isStringNumeric} from '../../Utils/GeneralUtils';
 
 export default function PrimitiveViewer(props) {
@@ -37,13 +37,16 @@ export default function PrimitiveViewer(props) {
         }
     };
 
+    const onValueChanged = (e) => {
+        const newValue = e.target.value;
+        const convertedValue = convertString(newValue, field.type);
+        setValue(convertedValue);
+        onFieldValueUpdated(field.name, convertedValue, {"index": arrayIndex});
+    };
+
     return (
         <input id="primitive-viewer-input" value={value} 
-            onChange={
-                ({ target: { value } }) => {
-                    setValue(value);
-                    onFieldValueUpdated(field.name, value, {"index": arrayIndex});
-                }
-            } type={inputType} step={inputStep} className="form-control form-control-sm" placeholder=""/>
+            onChange={onValueChanged} type={inputType} step={inputStep} 
+            className="form-control form-control-sm" placeholder=""/>
     );
 }
