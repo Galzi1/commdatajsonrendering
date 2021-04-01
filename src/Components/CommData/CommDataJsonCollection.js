@@ -1,11 +1,8 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import CommDataJson from './CommDataJson';
+import CommDataJsonFluid from './CommDataJsonFluid';
 import {StyledTableCell, TableWrapperStyle} from '../../TableStyle';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import {Table, TableBody, TableContainer, TableHead, TableRow, Grid} from '@material-ui/core';
 import '../../App.css';
 import coll from '../../test_collection.json';
 
@@ -36,17 +33,21 @@ export default function CommDataCollection() {
                 fields
             } = commData //destructuring
             return (
-                <CommDataJson id={id} name={name} source={source} destination={destination} length={length} enums={enums} structs={structs} fields={fields}/>
+                // <CommDataJson id={id} name={name} source={source} destination={destination} length={length} enums={enums} structs={structs} fields={fields}/>
+                <CommDataJsonFluid id={id} name={name} source={source} destination={destination} length={length} enums={enums} structs={structs} fields={fields}/>
             )
         })
     }
 
     return (
-        <div>
+        <Fragment>
             <div>
                 <h2 style={{fontWeight: "bold", textAlign: "center", marginTop: "1.1rem"}}>מידע שנשלח/התקבל</h2>
             </div>
-            <TableContainer style={TableWrapperStyle}>
+            <Grid container spacing={3} direction="column" justify="flex-start" alignItems="flex-start">
+                {renderTableData()}
+            </Grid>
+            {/* <TableContainer style={TableWrapperStyle}>
                 <Table>
                     <TableHead className="bg-primary">
                         <TableRow>
@@ -62,7 +63,7 @@ export default function CommDataCollection() {
                         {renderTableData()}
                     </TableBody>
                 </Table>
-            </TableContainer>
-        </div>
+            </TableContainer> */}
+        </Fragment>
     )
 }
