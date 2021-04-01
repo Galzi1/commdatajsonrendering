@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FieldCollection from '../Field/FieldCollection';
 import FieldCollectionFluid from '../Field/FieldCollectionFluid';
-import {Grid, Paper, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
+import {Grid, Paper, TableContainer, Table, TableBody, TableRow, TableCell, TextField} from '@material-ui/core';
 import '../../App.css';
 import shortid from 'shortid';
 import KeyValueTableRow from '../General/KeyValueTableRow';
@@ -58,22 +58,52 @@ export default function CommDataJsonFluid(props) {
 
     const renderCommDataDetails = () => {
         return (
-        <Grid container item spacing={3}>
-            <GriddedLabelledOutline label="מזהה">
-                {id}
-            </GriddedLabelledOutline>
-            <GriddedLabelledOutline label="שם">
-                {name}
-            </GriddedLabelledOutline>
-            <GriddedLabelledOutline label="מקור">
-                {source}
-            </GriddedLabelledOutline>
-            <GriddedLabelledOutline label="יעד">
-                {destination}
-            </GriddedLabelledOutline>
-            <GriddedLabelledOutline label="אורך">
-                {length}
-            </GriddedLabelledOutline>
+        <Grid container item spacing={1}>
+            <Grid item>
+                <TextField
+                    label="מזהה"
+                    defaultValue={id}
+                    InputProps={{readOnly: true}}
+                    variant="outlined"
+                    margin="dense"
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="שם"
+                    defaultValue={name}
+                    InputProps={{readOnly: true}}
+                    variant="outlined"
+                    margin="dense"
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="מקור"
+                    defaultValue={source}
+                    InputProps={{readOnly: true}}
+                    variant="outlined"
+                    margin="dense"
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="יעד"
+                    defaultValue={destination}
+                    InputProps={{readOnly: true}}
+                    variant="outlined"
+                    margin="dense"
+                />
+            </Grid>
+            <Grid item>
+                <TextField
+                    label="אורך"
+                    defaultValue={length}
+                    InputProps={{readOnly: true}}
+                    variant="outlined"
+                    margin="dense"
+                />
+            </Grid>
         </Grid>
         );
     };
