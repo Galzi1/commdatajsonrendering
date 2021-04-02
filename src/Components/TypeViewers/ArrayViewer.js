@@ -2,7 +2,7 @@ import React, {Fragment, useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import FieldViewerWrapper from './FieldViewerWrapper';
 import {convertString} from '../../Utils/GeneralUtils';
-import {TextField} from '@material-ui/core';
+import {TextField, Box, Grid} from '@material-ui/core';
 
 export default function ArrayViewer(props) {
     const field = props.field;
@@ -70,12 +70,17 @@ export default function ArrayViewer(props) {
     const renderValues = (_innerFields) => {
         if (!(Object.is(_innerFields, undefined) || Object.is(_innerFields, null)) && Array.isArray(values)) {
             const innerFieldsComponents = _innerFields.map((innerField, index) => {
-                const wrapper = (<FieldViewerWrapper field={innerField} enums={enums} structs={structs} onFieldValueUpdated={onArrayValueUpdated} arrayIndex={index}/>);
+                const wrapper = (
+                    <Grid item>
+                        <FieldViewerWrapper field={innerField} enums={enums} structs={structs} 
+                        onFieldValueUpdated={onArrayValueUpdated} arrayIndex={index}/>
+                    </Grid>
+                );
                 return wrapper;
             });
             
             return (
-                <Fragment>
+                <Box p={1} border={1} borderColor="red">
                     <TextField
                         label="גודל המערך"
                         defaultValue={arrayLength}
@@ -86,8 +91,10 @@ export default function ArrayViewer(props) {
                         margin="dense"
                     />
                     <br/>
-                    {innerFieldsComponents}
-                </Fragment>
+                    <Grid container spacing={1} direction="column">
+                        {innerFieldsComponents}
+                    </Grid>
+                </Box>
             );
         }
 
