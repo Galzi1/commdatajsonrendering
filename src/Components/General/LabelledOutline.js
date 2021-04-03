@@ -16,7 +16,7 @@ const styles = {
     left: 0,
     top: 0,
     // slight alteration to spec spacing to match visual spec result
-    transform: "translate(0, 24px) scale(1)"
+    transform: "translate(14px, 20px) scale(0.75)"
   }
 };
 
@@ -36,7 +36,6 @@ const LabelledOutline = ({ classes, id, label, children, button }) => {
         htmlFor={id}
         variant="outlined"
         className={classes.inputLabel}
-        shrink
       >
           {label}
       </InputLabel>

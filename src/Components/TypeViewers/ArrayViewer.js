@@ -89,6 +89,7 @@ export default function ArrayViewer(props) {
                         }}
                         variant="outlined"
                         margin="dense"
+                        fullWidth={true}
                     />
                     <br/>
                     <Grid container spacing={1} direction="column">
