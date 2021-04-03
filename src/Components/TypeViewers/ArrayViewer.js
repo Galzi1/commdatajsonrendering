@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import FieldViewerWrapper from './FieldViewerWrapper';
 import {convertString} from '../../Utils/GeneralUtils';
+import {TextField, Box, Grid} from '@material-ui/core';
 
 export default function ArrayViewer(props) {
     const field = props.field;
@@ -22,8 +23,12 @@ export default function ArrayViewer(props) {
     const arrayIndex = props.arrayIndex;
     
     const [innerFields, setInnerFields] = useState([]);
+    const [arrayLength, setArrayLength] = useState(0);
 
     useEffect(() => {
+        if (!(Object.is(values, undefined) || Object.is(values, null)) && Array.isArray(values)) {
+            setArrayLength(values.length)
+        };
         setInnerFields(buildInnerFields(field, values));
     }, [field, values]);
 
@@ -64,11 +69,34 @@ export default function ArrayViewer(props) {
 
     const renderValues = (_innerFields) => {
         if (!(Object.is(_innerFields, undefined) || Object.is(_innerFields, null)) && Array.isArray(values)) {
-            const ret = _innerFields.map((innerField, index) => {
-                const wrapper = (<FieldViewerWrapper field={innerField} enums={enums} structs={structs} onFieldValueUpdated={onArrayValueUpdated} arrayIndex={index}/>);
+            const innerFieldsComponents = _innerFields.map((innerField, index) => {
+                const wrapper = (
+                    <Grid item>
+                        <FieldViewerWrapper field={innerField} enums={enums} structs={structs} 
+                        onFieldValueUpdated={onArrayValueUpdated} arrayIndex={index}/>
+                    </Grid>
+                );
                 return wrapper;
             });
-            return ret;
+            
+            return (
+                <Box p={1} border={1} borderColor="red">
+                    <TextField
+                        label="גודל המערך"
+                        defaultValue={arrayLength}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        variant="outlined"
+                        margin="dense"
+                        fullWidth={true}
+                    />
+                    <br/>
+                    <Grid container spacing={1} direction="column">
+                        {innerFieldsComponents}
+                    </Grid>
+                </Box>
+            );
         }
 
         return <NullViewer/>;

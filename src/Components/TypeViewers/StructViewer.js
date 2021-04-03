@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import FieldViewerWrapper from './FieldViewerWrapper';
 import {getIndexInCollection} from '../../Utils/GeneralUtils';
+import {Grid, Box} from '@material-ui/core';
 
 export default function StructViewer(props) {
     const field = props.field;
@@ -116,9 +117,20 @@ export default function StructViewer(props) {
     const renderValues = (_innerValues) => {
         if (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues)) {
             const ret = _innerValues.map((innerValue) => {
-                return (<FieldViewerWrapper field={innerValue} enums={enums} structs={structs} onFieldValueUpdated={onStructValueUpdated}/>)
+                return (
+                    <Grid item>
+                        <FieldViewerWrapper field={innerValue} enums={enums} structs={structs} onFieldValueUpdated={onStructValueUpdated}/>
+                    </Grid>
+                );
             });
-            return ret;
+
+            return (
+                <Box p={1} border={1} borderColor="blue">
+                    <Grid container spacing={1} direction="column">
+                        {ret}
+                    </Grid>
+                </Box>
+            );
         }
 
         return <NullViewer/>;
