@@ -49,13 +49,23 @@
                         "description": "An Enum In Struct Example"
                     }, 
                     {
+                        "name": "NumOfItems", 
+                        "type": "Int32", 
+                        "isArray": false, 
+                        "units": "", 
+                        "range": "", 
+                        "scale": "1", 
+                        "description": "The Number Of Items In Array"
+                    }, 
+                    {
                         "name": "ArrayInStruct", 
                         "type": "Int32", 
                         "isArray": true, 
                         "units": "", 
                         "range": "", 
                         "scale": "", 
-                        "description": "An Array In Struct Example"
+                        "description": "An Array In Struct Example", 
+                        "lengthField": "NumOfItems"
                     }
                 ]
             }
@@ -124,6 +134,7 @@
                 "value": {
                     "PrimInStruct": 77, 
                     "EnumInStruct": 2, 
+                    "NumOfItems": 2, 
                     "ArrayInStruct": [1, 2]
                 }
             }, 
@@ -139,11 +150,13 @@
                     {
                         "PrimInStruct": 34531, 
                         "EnumInStruct": 0, 
+                        "NumOfItems": 2, 
                         "ArrayInStruct": [-1, 0]
                     }, 
                     {
                         "PrimInStruct": -123, 
                         "EnumInStruct": 1, 
+                        "NumOfItems": 0, 
                         "ArrayInStruct": []
                     }
                 ]

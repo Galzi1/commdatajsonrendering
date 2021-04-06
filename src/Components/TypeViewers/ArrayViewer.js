@@ -21,9 +21,14 @@ export default function ArrayViewer(props) {
     const structs = props.structs;
     const values = field.value;
     const arrayIndex = props.arrayIndex;
+    const valueState = props.valueState;
+    const drawBorder = props.drawBorder;
     
     const [innerFields, setInnerFields] = useState([]);
-    const [arrayLength, setArrayLength] = useState(0);
+    const [arrayLength, setArrayLength] = (Object.is(valueState, undefined) || Object.is(valueState, null)) 
+        ? useState(0) 
+        : valueState;
+    const [borderWidth, setBorderWidth] = useState(0);
 
     useEffect(() => {
         if (!(Object.is(values, undefined) || Object.is(values, null)) && Array.isArray(values)) {
@@ -31,6 +36,14 @@ export default function ArrayViewer(props) {
         };
         setInnerFields(buildInnerFields(field, values));
     }, [field, values]);
+
+    useEffect(() => {
+        let newBorderWidth = 0;
+        if (Object.is(drawBorder, undefined) || Object.is(drawBorder, null) || drawBorder) {
+            newBorderWidth = 1;
+        }
+        setBorderWidth(newBorderWidth);
+    }, [drawBorder])
 
     const buildInnerFields = (field, values) => {
         const { 
@@ -80,22 +93,9 @@ export default function ArrayViewer(props) {
             });
             
             return (
-                <Box p={1} border={1} borderColor="red">
-                    <TextField
-                        label="גודל המערך"
-                        defaultValue={arrayLength}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        variant="outlined"
-                        margin="dense"
-                        fullWidth={true}
-                    />
-                    <br/>
-                    <Grid container spacing={1} direction="column">
-                        {innerFieldsComponents}
-                    </Grid>
-                </Box>
+                <Grid container spacing={1} direction="column">
+                    {innerFieldsComponents}
+                </Grid>
             );
         }
 
@@ -103,8 +103,8 @@ export default function ArrayViewer(props) {
     };
 
     return (
-        <div id="array-viewer-div">
+        <Box id="array-viewer-div" p={1} border={borderWidth} borderColor="red">
             {renderValues(innerFields)}
-        </div>
+        </Box>
     )
 }

@@ -14,8 +14,12 @@ export default function PrimitiveViewer(props) {
     // "value": 123
     const onFieldValueUpdated = props.onFieldValueUpdated;
     const arrayIndex = props.arrayIndex;
+    const valueState = props.valueState;
 
-    const [value, setValue] = useState(field.value);
+    const [value, setValue] = (Object.is(valueState, undefined) || Object.is(valueState, null)) 
+        ? useState(field.value) 
+        : valueState;
+
     const [inputType, setInputType] = useState("text");
     const [inputStep, setInputStep] = useState("");
 
@@ -40,6 +44,7 @@ export default function PrimitiveViewer(props) {
     const onValueChanged = (e) => {
         const newValue = e.target.value;
         const convertedValue = convertString(newValue, field.type);
+        console.log(convertedValue);
         setValue(convertedValue);
         onFieldValueUpdated(field.name, convertedValue, {"index": arrayIndex});
     };

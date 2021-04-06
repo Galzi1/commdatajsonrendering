@@ -17,13 +17,15 @@ export default function FieldViewerWrapper(props) {
     const structs = props.structs;
     const onFieldValueUpdated = props.onFieldValueUpdated;
     const arrayIndex = props.arrayIndex;
+    const lengthComponent = props.lengthComponent;
+    const initialLength = props.initialLength;
 
     const renderFieldViewer = (_field) => {
         if (Object.is(_field, undefined) || Object.is(_field, null)) {
             return fieldViewerFactory("null");
         }
         else if (_field.isArray) {
-            return fieldViewerFactory("array", field, onFieldValueUpdated, undefined, enums, structs, arrayIndex);
+            return fieldViewerFactory("array", field, onFieldValueUpdated, undefined, enums, structs, arrayIndex, lengthComponent, initialLength);
         }
         else if (isPrimitive(_field.type)) {
             return fieldViewerFactory("primitive", field, onFieldValueUpdated, undefined, undefined, undefined, arrayIndex);
