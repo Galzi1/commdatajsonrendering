@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {StyledTableCell, StyledTableRow} from '../../TableStyle';
 import '../../App.css';
-import FieldViewerWrapper from '../TypeViewers/FieldViewerWrapper';
+import fieldViewerFactory from '../TypeViewers/FieldViewerFactory';
 
 const boolToStr = (flag) => {
     return flag ? "כן" : "לא";
@@ -35,7 +35,12 @@ export default function Field(props) {
             <StyledTableCell align="center">{scale}</StyledTableCell>
             <StyledTableCell align="center">{description}</StyledTableCell>
             <StyledTableCell align="center">
-                <FieldViewerWrapper field={field} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>
+                {fieldViewerFactory({
+                    field: field, 
+                    enums: enums, 
+                    structs: structs, 
+                    onFieldValueUpdated: onFieldValueUpdated
+                })}
             </StyledTableCell>
         </StyledTableRow>
     )

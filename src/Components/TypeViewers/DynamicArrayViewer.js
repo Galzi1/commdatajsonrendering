@@ -1,6 +1,5 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
-import FieldViewerWrapper from './FieldViewerWrapper';
 import ArrayViewer from './ArrayViewer';
 import {convertString} from '../../Utils/GeneralUtils';
 import {TextField, Box, Grid} from '@material-ui/core';
@@ -25,10 +24,19 @@ export default function DynamicArrayViewer(props) {
     }, [values, lengthComponent]);
 
     const renderLengthComponent = () => {
-        return React.cloneElement(
+        const childrenWithProps = React.Children.map(lengthComponent.props.children, child => {
+            // checking isValidElement is the safe way and avoids a typescript error too
+            if (React.isValidElement(child)) {
+                return React.cloneElement(child, {valueState: [arrayLength, setArrayLength]});
+            }
+            return child;
+        });
+    
+        const comp = React.cloneElement(
             lengthComponent,
-            {valueState: [arrayLength, setArrayLength]}
+            {children: childrenWithProps}
         );
+        return comp;
     };
 
     const addItemToArray = (event) => {

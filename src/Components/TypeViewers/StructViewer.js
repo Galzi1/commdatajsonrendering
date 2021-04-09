@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
-import FieldViewerWrapper from './FieldViewerWrapper';
+import fieldViewerFactory from './FieldViewerFactory';
 import {getIndexInCollection} from '../../Utils/GeneralUtils';
 import {Grid, Box} from '@material-ui/core';
 
@@ -125,11 +125,19 @@ export default function StructViewer(props) {
                     lengthComponent = fieldsCompsDict[innerValue.lengthField];
                 }
 
+                const initialLength = (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues))
+                    ? values[innerValue.name].length
+                    : undefined;
                 const comp = (
                     <Grid item>
-                        <FieldViewerWrapper field={innerValue} enums={enums} structs={structs} 
-                        onFieldValueUpdated={onStructValueUpdated} lengthComponent={lengthComponent} 
-                        initialLength={values[innerValue.name]}/>
+                        {fieldViewerFactory({
+                            field: innerValue, 
+                            enums: enums, 
+                            structs: structs, 
+                            onFieldValueUpdated: onStructValueUpdated, 
+                            lengthComponent: lengthComponent, 
+                            initialLength: initialLength
+                        })}
                     </Grid>
                 );
 

@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
-import FieldViewerWrapper from './FieldViewerWrapper';
+import fieldViewerFactory from './FieldViewerFactory';
 import {convertString} from '../../Utils/GeneralUtils';
 import {TextField, Box, Grid} from '@material-ui/core';
 
@@ -85,8 +85,13 @@ export default function ArrayViewer(props) {
             const innerFieldsComponents = _innerFields.map((innerField, index) => {
                 const wrapper = (
                     <Grid item>
-                        <FieldViewerWrapper field={innerField} enums={enums} structs={structs} 
-                        onFieldValueUpdated={onArrayValueUpdated} arrayIndex={index}/>
+                        {fieldViewerFactory({
+                            field: innerField, 
+                            enums: enums, 
+                            structs: structs, 
+                            onFieldValueUpdated: onArrayValueUpdated, 
+                            arrayIndex: index
+                        })}
                     </Grid>
                 );
                 return wrapper;
