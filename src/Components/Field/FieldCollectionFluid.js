@@ -1,15 +1,13 @@
 import React, {Fragment} from 'react';
-import Field from './Field';
 import FieldFluid from './FieldFluid';
-import {StyledTableCell, TableWrapperStyle} from '../../TableStyle';
-import {Grid, Paper} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import '../../App.css';
+import shortid from 'shortid';
 
 export default function FieldCollectionFluid(props) {
     const enums = props.enums;
     const structs = props.structs;
     const fields = props.fields;
-    const setFields = props.setFields;
     const onFieldValueUpdated = props.onFieldValueUpdated;
     
     const renderFields = () => {
@@ -25,7 +23,7 @@ export default function FieldCollectionFluid(props) {
             //     value
             // } = field //destructuring
             return (
-                <FieldFluid id={index} field={field} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>
+                <FieldFluid key={shortid.generate()} id={index} field={field} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>
             )
         })
     };

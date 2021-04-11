@@ -3,6 +3,7 @@ import NullViewer from './NullViewer';
 import fieldViewerFactory from './FieldViewerFactory';
 import {getIndexInCollection} from '../../Utils/GeneralUtils';
 import {Grid, Box} from '@material-ui/core';
+import shortid from 'shortid';
 
 export default function StructViewer(props) {
     const field = props.field;
@@ -129,7 +130,7 @@ export default function StructViewer(props) {
                     ? values[innerValue.name].length
                     : undefined;
                 const comp = (
-                    <Grid item>
+                    <Grid item key={shortid.generate()}>
                         {fieldViewerFactory({
                             field: innerValue, 
                             enums: enums, 
