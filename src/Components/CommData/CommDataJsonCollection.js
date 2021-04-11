@@ -5,6 +5,7 @@ import {StyledTableCell, TableWrapperStyle} from '../../TableStyle';
 import {Table, TableBody, TableContainer, TableHead, TableRow, Grid} from '@material-ui/core';
 import '../../App.css';
 import coll from '../../test_collection.json';
+import shortid from 'shortid';
 
 export default function CommDataCollection() {
     const [commDataCollection, setCommDataCollection] = useState([]);
@@ -34,7 +35,7 @@ export default function CommDataCollection() {
             } = commData //destructuring
             return (
                 // <CommDataJson id={id} name={name} source={source} destination={destination} length={length} enums={enums} structs={structs} fields={fields}/>
-                <CommDataJsonFluid id={id} name={name} source={source} destination={destination} length={length} enums={enums} structs={structs} fields={fields}/>
+                <CommDataJsonFluid key={shortid.generate} id={id} name={name} source={source} destination={destination} length={length} enums={enums} structs={structs} fields={fields}/>
             )
         })
     }
