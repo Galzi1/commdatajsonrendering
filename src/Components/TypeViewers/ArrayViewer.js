@@ -1,8 +1,9 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
-import FieldViewerWrapper from './FieldViewerWrapper';
-import {convertString} from '../../Utils/GeneralUtils';
-import {TextField, Box, Grid} from '@material-ui/core';
+import fieldViewerFactory from './FieldViewerFactory';
+import {buildFieldValues} from '../../Utils/TypesUtils';
+import {Box, Grid} from '@material-ui/core';
+import shortid from 'shortid';
 
 export default function ArrayViewer(props) {
     const field = props.field;
@@ -19,35 +20,42 @@ export default function ArrayViewer(props) {
     const onFieldValueUpdated = props.onFieldValueUpdated;
     const enums = props.enums;
     const structs = props.structs;
-    const values = field.value;
+    const values = (Object.is(props.values, undefined) || Object.is(props.values, null)) 
+        ? field.value
+        : props.values;
     const arrayIndex = props.arrayIndex;
+    const valueState = props.valueState;
+    const lengthState = props.lengthState;
+    const drawBorder = props.drawBorder;
     
-    const [innerFields, setInnerFields] = useState([]);
-    const [arrayLength, setArrayLength] = useState(0);
+    const [innerFields, setInnerFields] = (Object.is(valueState, undefined) || Object.is(valueState, null)) 
+        ? useState([]) 
+        : valueState;
+    const [arrayLength, setArrayLength] = (Object.is(lengthState, undefined) || Object.is(lengthState, null)) 
+        ? useState(0) 
+        : lengthState;
+    const [borderWidth, setBorderWidth] = useState(0);
+    const [innerComponents, setInnerComponents] = useState([]);
 
     useEffect(() => {
         if (!(Object.is(values, undefined) || Object.is(values, null)) && Array.isArray(values)) {
             setArrayLength(values.length)
         };
-        setInnerFields(buildInnerFields(field, values));
+        setInnerFields(buildFieldValues(field, values));
     }, [field, values]);
 
-    const buildInnerFields = (field, values) => {
-        const { 
-            name, 
-            type,
-            isArray, 
-            units, 
-            range, 
-            scale, 
-            description, 
-            p_value
-        } = field //destructuring
-        const ret = values.map(v => ({ name: name, type: type, 
-            isArray: false, units: units, range: range, scale: scale, 
-            description: description + " item", value: v}));
-        return ret;
-    };
+    useEffect(() => {
+        console.log(innerFields);
+        setInnerComponents(renderValues(innerFields));
+    }, [innerFields])
+
+    useEffect(() => {
+        let newBorderWidth = 0;
+        if (Object.is(drawBorder, undefined) || Object.is(drawBorder, null) || drawBorder) {
+            newBorderWidth = 1;
+        }
+        setBorderWidth(newBorderWidth);
+    }, [drawBorder])
 
     const onArrayValueUpdated = (fieldName, newValue, params = undefined) => {
         let index = -1;
@@ -56,7 +64,7 @@ export default function ArrayViewer(props) {
         };
 
         if (!(Object.is(index, undefined) || Object.is(index, null)) 
-        && index >= 0 && index < values.length) {
+        && index >= 0 && index < arrayLength) {
             // values[index] = convertString(newValue, field.type);
             values[index] = newValue;
             //TODO: Adjust to length
@@ -68,43 +76,33 @@ export default function ArrayViewer(props) {
     };
 
     const renderValues = (_innerFields) => {
-        if (!(Object.is(_innerFields, undefined) || Object.is(_innerFields, null)) && Array.isArray(values)) {
+        if (!(Object.is(_innerFields, undefined) || Object.is(_innerFields, null)) && Array.isArray(_innerFields)) {
             const innerFieldsComponents = _innerFields.map((innerField, index) => {
                 const wrapper = (
-                    <Grid item>
-                        <FieldViewerWrapper field={innerField} enums={enums} structs={structs} 
-                        onFieldValueUpdated={onArrayValueUpdated} arrayIndex={index}/>
+                    <Grid item key={shortid.generate()}>
+                        {fieldViewerFactory({
+                            field: innerField, 
+                            enums: enums, 
+                            structs: structs, 
+                            onFieldValueUpdated: onArrayValueUpdated, 
+                            arrayIndex: index
+                        })}
                     </Grid>
                 );
                 return wrapper;
             });
             
-            return (
-                <Box p={1} border={1} borderColor="red">
-                    <TextField
-                        label="גודל המערך"
-                        defaultValue={arrayLength}
-                        InputProps={{
-                            readOnly: true,
-                        }}
-                        variant="outlined"
-                        margin="dense"
-                        fullWidth={true}
-                    />
-                    <br/>
-                    <Grid container spacing={1} direction="column">
-                        {innerFieldsComponents}
-                    </Grid>
-                </Box>
-            );
+            return innerFieldsComponents;
         }
 
         return <NullViewer/>;
     };
 
     return (
-        <div id="array-viewer-div">
-            {renderValues(innerFields)}
-        </div>
+        <Box id="array-viewer-div" p={1} border={borderWidth} borderColor="red">
+            <Grid container spacing={1} direction="column">
+                {innerComponents}
+            </Grid>
+        </Box>
     )
 }

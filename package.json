@@ -11,6 +11,7 @@
     "all": "0.0.0",
     "axios": "^0.21.1",
     "firebase": "^7.14.0",
+    "immutable": "^4.0.0-rc.12",
     "iohook": "^0.4.0",
     "leaflet": "^1.4.0",
     "leaflet-offline": "^1.1.0",

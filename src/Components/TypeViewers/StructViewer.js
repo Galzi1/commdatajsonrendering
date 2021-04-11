@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
-import FieldViewerWrapper from './FieldViewerWrapper';
+import fieldViewerFactory from './FieldViewerFactory';
 import {getIndexInCollection} from '../../Utils/GeneralUtils';
 import {Grid, Box} from '@material-ui/core';
 
@@ -56,6 +56,7 @@ export default function StructViewer(props) {
     const structs = props.structs;
     const arrayIndex = props.arrayIndex;
     const values = field.value;
+    const fieldsCompsDict = {};
 
     const [innerValues, setInnerValues] = useState([]);
 
@@ -75,7 +76,8 @@ export default function StructViewer(props) {
                     units, 
                     range, 
                     scale, 
-                    description
+                    description, 
+                    lengthField, 
                 } = f //destructuring
 
                 const v = values[name];
@@ -85,7 +87,7 @@ export default function StructViewer(props) {
 
                 const newFieldValue = { name: name, type: type, 
                     isArray: isArray, units: units, range: range, scale: scale, 
-                    description: description, value: v 
+                    description: description, lengthField: lengthField, value: v 
                 }
                 
                 ret.push(newFieldValue);
@@ -117,11 +119,31 @@ export default function StructViewer(props) {
     const renderValues = (_innerValues) => {
         if (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues)) {
             const ret = _innerValues.map((innerValue) => {
-                return (
+                let lengthComponent = undefined;
+                if (innerValue.isArray && !(Object.is(innerValue.lengthField, undefined) || Object.is(innerValue.lengthField, null) 
+                || innerValue.lengthField === "") && fieldsCompsDict.hasOwnProperty(innerValue.lengthField)){
+                    lengthComponent = fieldsCompsDict[innerValue.lengthField];
+                }
+
+                const initialLength = (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues))
+                    ? values[innerValue.name].length
+                    : undefined;
+                const comp = (
                     <Grid item>
-                        <FieldViewerWrapper field={innerValue} enums={enums} structs={structs} onFieldValueUpdated={onStructValueUpdated}/>
+                        {fieldViewerFactory({
+                            field: innerValue, 
+                            enums: enums, 
+                            structs: structs, 
+                            onFieldValueUpdated: onStructValueUpdated, 
+                            lengthComponent: lengthComponent, 
+                            initialLength: initialLength
+                        })}
                     </Grid>
                 );
+
+                fieldsCompsDict[innerValue.name] = comp;
+                
+                return comp;
             });
 
             return (

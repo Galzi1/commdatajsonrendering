@@ -1,8 +1,24 @@
 import {isStringNumeric, getIndexInCollection} from './GeneralUtils';
+import {Map} from 'immutable';
 
 export const integerTypes = ["byte", "sbyte", "int16", "uint16", "int32", "uint32", "int64", "uint64"];
 export const floatTypes = ["float", "double"];
 export const textTypes = ["char", "string"];
+
+export const defaultValues = Map({
+    byte: 0, 
+    sbyte: 0, 
+    int16: 0, 
+    uint16: 0, 
+    int32: 0, 
+    uint32: 0, 
+    int64: 0, 
+    uint64: 0, 
+    float: 0.0, 
+    double: 0.0, 
+    char: "", 
+    string: ""
+});
 
 export const isInteger = (type) => {
     const lowerCasedType = type.toLowerCase();
@@ -55,4 +71,48 @@ export const getEnumIndex = (enums, type) => {
 
 export const getStructIndex = (structs, type) => {
     return getIndexInCollection(structs, 'name', type);
+};
+
+export const buildFieldValues = (field, values) => {
+    const { 
+        name, 
+        type,
+        isArray, 
+        units, 
+        range, 
+        scale, 
+        description, 
+        p_value
+    } = field //destructuring
+    const ret = values.map(v => ({ name: name, type: type, 
+        isArray: false, units: units, range: range, scale: scale, 
+        description: description + " item", value: v}));
+    return ret;
+};
+
+export const createEmptyField = (templateField = undefined) => {
+    if (!(Object.is(templateField, undefined) || Object.is(templateField, null))) {
+        return ({
+            name: templateField.name, 
+            type: templateField.type,
+            isArray: false, 
+            units: templateField.units, 
+            range: templateField.range, 
+            scale: templateField.scale, 
+            description: templateField.description + " item", 
+            value: defaultValues.get(templateField.type.toLowerCase())
+        });
+    }
+    else {
+        return ({
+            name: "", 
+            type: "",
+            isArray: false, 
+            units: "", 
+            range: "", 
+            scale: "", 
+            description: "", 
+            value: undefined
+        });
+    }
 };

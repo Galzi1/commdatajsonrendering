@@ -3,7 +3,7 @@ import {StyledTableCell, StyledTableRow} from '../../TableStyle';
 import {Grid, Paper, TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import '../../App.css';
 import FieldDetails from './FieldDetails';
-import FieldViewerWrapper from '../TypeViewers/FieldViewerWrapper';
+import fieldViewerFactory from '../TypeViewers/FieldViewerFactory';
 import shortid from 'shortid';
 import KeyValueTableRow from '../General/KeyValueTableRow';
 import LabelledOutline from '../General/LabelledOutline';
@@ -18,7 +18,12 @@ export default function Field(props) {
         <Grid item>
             <Paper id="FieldFluid">
                 <LabelledOutline label={field.name} button={<FieldDetails field={field}/>}>
-                    <FieldViewerWrapper field={field} enums={enums} structs={structs} onFieldValueUpdated={onFieldValueUpdated}/>
+                    {fieldViewerFactory({
+                        field: field, 
+                        enums: enums, 
+                        structs: structs, 
+                        onFieldValueUpdated: onFieldValueUpdated
+                    })}
                 </LabelledOutline>
             </Paper>
         </Grid>

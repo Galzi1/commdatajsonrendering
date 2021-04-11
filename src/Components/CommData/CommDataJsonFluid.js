@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FieldCollection from '../Field/FieldCollection';
 import FieldCollectionFluid from '../Field/FieldCollectionFluid';
-import {Grid, Paper, TableContainer, Table, TableBody, TableRow, TableCell, TextField} from '@material-ui/core';
+import {Button, Grid, Paper, TableContainer, Table, TableBody, TableRow, TableCell, TextField} from '@material-ui/core';
 import '../../App.css';
 import shortid from 'shortid';
 import KeyValueTableRow from '../General/KeyValueTableRow';
@@ -20,7 +20,6 @@ export default function CommDataJsonFluid(props) {
     const [commDataFields, setCommDataFields] = useState([]);
 
     useEffect(() => {
-        console.log(props);
         if (fields) {
             setCommDataFields(fields);
         }
@@ -45,7 +44,8 @@ export default function CommDataJsonFluid(props) {
         ret['length'] = length;
         ret['enums'] = enums;
         ret['structs'] = structs;
-        ret['fields'] = commDataFields;
+        // ret['fields'] = commDataFields;
+        ret['fields'] = fields;
 
         return ret;
     };
@@ -103,6 +103,11 @@ export default function CommDataJsonFluid(props) {
                     variant="outlined"
                     margin="dense"
                 />
+            </Grid>
+            <Grid item>
+                <Button variant="contained" color="primary" onClick={sendButtonClick}>
+                    שלח
+                </Button>
             </Grid>
         </Grid>
         );
