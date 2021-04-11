@@ -20,7 +20,7 @@ const styles = {
   }
 };
 
-const LabelledOutline = ({ classes, id, label, children, button }) => {
+const LabelledOutline = ({ classes, id, label, children, button = <div style={{height: 26.4, width: 24}}/> }) => {
   const [labelWidth, setLabelWidth] = React.useState(0);
   const labelRef = React.useRef(null);
   React.useEffect(() => {
