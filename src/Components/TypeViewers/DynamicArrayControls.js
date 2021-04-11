@@ -1,12 +1,7 @@
-import React, {useState} from 'react';
-import KeyValueTableRow from '../General/KeyValueTableRow';
-import { Grid, Popper, Paper, TableContainer, Table, TableBody, IconButton } from '@material-ui/core';
+import React from 'react';
+import { Grid, IconButton } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
-
-const boolToStr = (flag) => {
-    return flag ? "כן" : "לא";
-};
 
 export default function DynamicArrayControls(props) {
     const plusHandler = props.plusHandler;

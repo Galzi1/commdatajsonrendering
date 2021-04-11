@@ -15,7 +15,6 @@ export default function fieldViewerFactory(args) {
     const arrayIndex = args.arrayIndex;
     const lengthComponent = args.lengthComponent;
     const initialLength = args.initialLength;
-    const valueState = args.valueState;
 
     if (Object.is(field, undefined) || Object.is(field, null)) {
         return (<NullViewer/>);
@@ -29,7 +28,7 @@ export default function fieldViewerFactory(args) {
         }
     }
     else if (isPrimitive(field.type)) {
-        return (<PrimitiveViewer field={field} onFieldValueUpdated={onFieldValueUpdated} arrayIndex={arrayIndex} valueState={valueState}/>);
+        return (<PrimitiveViewer field={field} onFieldValueUpdated={onFieldValueUpdated} arrayIndex={arrayIndex}/>);
     }
     else {
         const enumIndex = getEnumIndex(enums, field.type);
