@@ -45,7 +45,6 @@ export default function ArrayViewer(props) {
     }, [field, values]);
 
     useEffect(() => {
-        console.log(innerFields);
         setInnerComponents(renderValues(innerFields));
     }, [innerFields])
 

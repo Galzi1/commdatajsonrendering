@@ -3,10 +3,12 @@ import ArrayViewer from './ArrayViewer';
 import {Box} from '@material-ui/core';
 import LabelledOutline from '../General/LabelledOutline';
 import DynamicArrayControls from './DynamicArrayControls';
-import {buildFieldValues, createEmptyField, defaultValues} from '../../Utils/TypesUtils';
+import {buildFieldValues, createEmptyField, defaultValues, typesSizes} from '../../Utils/TypesUtils';
+import {useCommDataLength, useSetCommDataLength} from '../../Utils/CommDataLengthContext';
 
 export default function DynamicArrayViewer(props) {
     const field = props.field;
+    const onFieldValueUpdated = props.onFieldValueUpdated;
     
     const lengthComponent = props.lengthComponent;
     const initialLength = props.initialLength;
@@ -14,6 +16,8 @@ export default function DynamicArrayViewer(props) {
     const [values, setValues] = useState(field.value);
     const [arrayLength, setArrayLength] = useState(0);
     const [innerFields, setInnerFields] = useState([]);
+    const commDataLength = useCommDataLength();
+    const setCommDataLength = useSetCommDataLength();
 
     useEffect(() => {
         if (!(Object.is(initialLength, undefined) || Object.is(initialLength, null))) {
@@ -51,15 +55,28 @@ export default function DynamicArrayViewer(props) {
         setArrayLength(arrayLength + 1);
         setInnerFields(innerFields.concat(createEmptyField(field)));
         values.push(defaultValues.get(field.type.toLowerCase()));
+
+        setCommDataLength(commDataLength + typesSizes.get(field.type.toLowerCase()));
     };
 
     const removeItemFromArray = (event) => {
-        setArrayLength(arrayLength - 1);
+        if (!(Object.is(arrayLength, undefined) || Object.is(arrayLength, null)) && arrayLength > 0) {
+            setArrayLength(arrayLength - 1);
+        }
+        else {
+            setArrayLength(0);
+        };
+        
         if (!(Object.is(innerFields, undefined) || Object.is(innerFields, null)) && Array.isArray(innerFields) && innerFields.length > 0) {
             setInnerFields(innerFields.splice(0,innerFields.length-1));
         };
+
         if (!(Object.is(values, undefined) || Object.is(values, null)) && Array.isArray(values) && values.length > 0) {
             values.pop();
+        };
+
+        if (!(Object.is(commDataLength, undefined) || Object.is(commDataLength, null)) && values.length > 0) {
+            setCommDataLength(commDataLength - typesSizes.get(field.type.toLowerCase()));
         };
     };
 
