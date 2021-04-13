@@ -20,6 +20,21 @@ export const defaultValues = Map({
     string: ""
 });
 
+export const typesSizes = Map({
+    byte: 1, 
+    sbyte: 1, 
+    int16: 2, 
+    uint16: 2, 
+    int32: 4, 
+    uint32: 4, 
+    int64: 8, 
+    uint64: 8, 
+    float: 4, 
+    double: 8, 
+    char: 1, 
+    string: 0
+});
+
 export const isInteger = (type) => {
     const lowerCasedType = type.toLowerCase();
     return integerTypes.includes(lowerCasedType);

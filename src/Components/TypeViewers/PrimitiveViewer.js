@@ -44,7 +44,6 @@ export default function PrimitiveViewer(props) {
     const onValueChanged = (e) => {
         const newValue = e.target.value;
         const convertedValue = convertString(newValue, field.type);
-        console.log(convertedValue);
         setValue(convertedValue);
         onFieldValueUpdated(field.name, convertedValue, {"index": arrayIndex});
     };

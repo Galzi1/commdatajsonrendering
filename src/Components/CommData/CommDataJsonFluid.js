@@ -6,23 +6,27 @@ import '../../App.css';
 import shortid from 'shortid';
 import KeyValueTableRow from '../General/KeyValueTableRow';
 import GriddedLabelledOutline from '../General/GriddedLabelledOutline';
+import {CommDataLengthProvider, useCommDataLength, useSetCommDataLength} from '../../Utils/CommDataLengthContext';
+import CommDataJsonHeader from './CommDataJsonHeader';
 
 export default function CommDataJsonFluid(props) {
     const id = props.id;
     const name = props.name;
     const source = props.source;
     const destination = props.destination;
-    const length = props.length;
+    const initialLength = props.length;
     const enums = props.enums;
     const structs = props.structs;
     const fields = props.fields;
 
     const [commDataFields, setCommDataFields] = useState([]);
+    const commDataLength = useCommDataLength();
+    const setCommDataLength = useSetCommDataLength();
 
     useEffect(() => {
-        if (fields) {
+        if (!(Object.is(fields, undefined) || Object.is(fields, null))) {
             setCommDataFields(fields);
-        }
+        };
     }, [fields]);
 
     const onFieldValueUpdated = (fieldName, newValue, params = undefined) => {
@@ -31,8 +35,7 @@ export default function CommDataJsonFluid(props) {
             const field = fields[fieldIndex];
             field['value'] = newValue;
             //TODO: Adjust to length
-        }
-        
+        };
     };
 
     const getCommDataObject = () => {
@@ -41,7 +44,7 @@ export default function CommDataJsonFluid(props) {
         ret['name'] = name;
         ret['source'] = source;
         ret['destination'] = destination;
-        ret['length'] = length;
+        ret['length'] = commDataLength;
         ret['enums'] = enums;
         ret['structs'] = structs;
         // ret['fields'] = commDataFields;
@@ -55,67 +58,15 @@ export default function CommDataJsonFluid(props) {
         const commDataObj = getCommDataObject();
         console.log(JSON.stringify(commDataObj));
     };
-
-    const renderCommDataDetails = () => {
-        return (
-        <Grid container item spacing={1}>
-            <Grid item>
-                <TextField
-                    label="מזהה"
-                    defaultValue={id}
-                    InputProps={{readOnly: true}}
-                    variant="outlined"
-                    margin="dense"
-                />
-            </Grid>
-            <Grid item>
-                <TextField
-                    label="שם"
-                    defaultValue={name}
-                    InputProps={{readOnly: true}}
-                    variant="outlined"
-                    margin="dense"
-                />
-            </Grid>
-            <Grid item>
-                <TextField
-                    label="מקור"
-                    defaultValue={source}
-                    InputProps={{readOnly: true}}
-                    variant="outlined"
-                    margin="dense"
-                />
-            </Grid>
-            <Grid item>
-                <TextField
-                    label="יעד"
-                    defaultValue={destination}
-                    InputProps={{readOnly: true}}
-                    variant="outlined"
-                    margin="dense"
-                />
-            </Grid>
-            <Grid item>
-                <TextField
-                    label="אורך"
-                    defaultValue={length}
-                    InputProps={{readOnly: true}}
-                    variant="outlined"
-                    margin="dense"
-                />
-            </Grid>
+    
+    return (
+        <Grid id="CommDataJsonFluid" container item spacing={3} style={{borderStyle: "solid", margin: 5}}>
             <Grid item>
                 <Button variant="contained" color="primary" onClick={sendButtonClick}>
                     שלח
                 </Button>
             </Grid>
-        </Grid>
-        );
-    };
-    
-    return (
-        <Grid id="CommDataJsonFluid" container item spacing={3} style={{borderStyle: "solid", margin: 5}}>
-            {renderCommDataDetails()}
+            
             {/* <Grid item>
                 <TableContainer component={Paper}>
                     <Table size="small">
@@ -129,7 +80,11 @@ export default function CommDataJsonFluid(props) {
                     </Table>
                 </TableContainer>
             </Grid> */}
-            <FieldCollectionFluid enums={enums} structs={structs} fields={commDataFields} setFields={setCommDataFields} onFieldValueUpdated={onFieldValueUpdated}/>
+            {React.createElement(CommDataLengthProvider, {initialLength: initialLength, children:
+                [<CommDataJsonHeader key={shortid.generate()} id={id} name={name} source={source} destination={destination}/>, 
+                <FieldCollectionFluid key={shortid.generate()} enums={enums} structs={structs} fields={commDataFields} setFields={setCommDataFields} onFieldValueUpdated={onFieldValueUpdated}/>]
+            })}
+            
         </Grid>
     );
 }
