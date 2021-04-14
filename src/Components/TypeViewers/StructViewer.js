@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import fieldViewerFactory from './FieldViewerFactory';
-import {getIndexInCollection} from '../../Utils/GeneralUtils';
 import {TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import shortid from 'shortid';
 import '../../App.css';

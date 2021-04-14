@@ -1,8 +1,6 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import CommDataJson from './CommDataJson';
 import CommDataJsonFluid from './CommDataJsonFluid';
-import {StyledTableCell, TableWrapperStyle} from '../../TableStyle';
-import {Table, TableBody, TableContainer, TableHead, TableRow, Grid} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import '../../App.css';
 import coll from '../../test_collection.json';
 import shortid from 'shortid';
