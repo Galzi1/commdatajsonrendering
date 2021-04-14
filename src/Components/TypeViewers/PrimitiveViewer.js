@@ -49,7 +49,7 @@ export default function PrimitiveViewer(props) {
     };
 
     return (
-        <input id="primitive-viewer-input" value={value} 
+        <input value={value} 
             onChange={onValueChanged} type={inputType} step={inputStep} 
             className="form-control form-control-sm" placeholder=""/>
     );
