@@ -2,8 +2,9 @@ import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import fieldViewerFactory from './FieldViewerFactory';
 import {getIndexInCollection} from '../../Utils/GeneralUtils';
-import {Grid, Box} from '@material-ui/core';
+import {TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import shortid from 'shortid';
+import '../../App.css';
 
 export default function StructViewer(props) {
     const field = props.field;
@@ -58,6 +59,7 @@ export default function StructViewer(props) {
     const arrayIndex = props.arrayIndex;
     const values = field.value;
     const fieldsCompsDict = {};
+    const lengthComponents = [];
 
     const [innerValues, setInnerValues] = useState([]);
 
@@ -119,18 +121,19 @@ export default function StructViewer(props) {
 
     const renderValues = (_innerValues) => {
         if (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues)) {
-            const ret = _innerValues.map((innerValue) => {
+            _innerValues.forEach((innerValue) => {
                 let lengthComponent = undefined;
                 if (innerValue.isArray && !(Object.is(innerValue.lengthField, undefined) || Object.is(innerValue.lengthField, null) 
                 || innerValue.lengthField === "") && fieldsCompsDict.hasOwnProperty(innerValue.lengthField)){
                     lengthComponent = fieldsCompsDict[innerValue.lengthField];
-                }
+                    lengthComponents.push(innerValue.lengthField);
+                };
 
                 const initialLength = (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues))
                     ? values[innerValue.name].length
                     : undefined;
                 const comp = (
-                    <Grid item key={shortid.generate()}>
+                    <div>
                         {fieldViewerFactory({
                             field: innerValue, 
                             enums: enums, 
@@ -139,20 +142,33 @@ export default function StructViewer(props) {
                             lengthComponent: lengthComponent, 
                             initialLength: initialLength
                         })}
-                    </Grid>
+                    </div>
                 );
 
                 fieldsCompsDict[innerValue.name] = comp;
-                
-                return comp;
             });
 
+            // Filter out length components
+            const compsToRender = []
+            Object.keys(fieldsCompsDict).forEach(key => {
+                if (!lengthComponents.includes(key)) {
+                    compsToRender.push(
+                        <TableRow key={shortid.generate()}>
+                            <TableCell className="struct-table-cell">{key}</TableCell>
+                            <TableCell>{fieldsCompsDict[key]}</TableCell>
+                        </TableRow>
+                    );
+                };
+            }); 
+
             return (
-                <Box p={1} border={1} borderColor="blue">
-                    <Grid container spacing={1} direction="column">
-                        {ret}
-                    </Grid>
-                </Box>
+                <TableContainer>
+                    <Table size="small" padding="none">
+                        <TableBody>
+                            {compsToRender}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             );
         }
 
