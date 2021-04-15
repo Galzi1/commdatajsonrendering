@@ -57,7 +57,7 @@ export default function EnumViewer(props) {
         <div id="enum-viewer-div">
             <select value={currValue} 
             onChange={e => onEnumValueChanged(e.target.value)} 
-            className="form-control form-control-sm">
+            className="form-control form-control-sm text-align-left no-rtl">
             {
                 enumOptions.map((enumOption, index) =>
                     <option key={shortid.generate()} value={enumOption.value}>{enumOption.name}</option>

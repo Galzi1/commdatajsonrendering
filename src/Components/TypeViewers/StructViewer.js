@@ -153,7 +153,7 @@ export default function StructViewer(props) {
                 if (!lengthComponents.includes(key)) {
                     compsToRender.push(
                         <TableRow key={shortid.generate()}>
-                            <TableCell className="struct-table-cell">{key}</TableCell>
+                            <TableCell className="text-align-right type-viewer-element">{key}</TableCell>
                             <TableCell>{fieldsCompsDict[key]}</TableCell>
                         </TableRow>
                     );

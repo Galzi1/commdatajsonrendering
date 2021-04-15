@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {isNumber, isFloat, convertString} from '../../Utils/TypesUtils';
 import {isStringNumeric} from '../../Utils/GeneralUtils';
+import '../../App.css';
 
 export default function PrimitiveViewer(props) {
     const field = props.field;
@@ -51,6 +52,6 @@ export default function PrimitiveViewer(props) {
     return (
         <input value={value} 
             onChange={onValueChanged} type={inputType} step={inputStep} 
-            className="form-control form-control-sm" placeholder=""/>
+            className="form-control form-control-sm text-align-left no-rtl" placeholder=""/>
     );
 }

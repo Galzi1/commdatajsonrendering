@@ -37,10 +37,22 @@ label {
   display: flex; /* or inline-flex */
 }
 
-.struct-table-cell {
+.text-align-right { 
+  text-align: right !important;
+}
+
+.text-align-left {
+  text-align: left !important;
+}
+
+.no-rtl {
+  direction: ltr;
+}
+
+.type-viewer-element {
   padding-top: 0.25rem !important;
   padding-right: 0.5rem !important;
   padding-bottom: 0.25rem !important;
   padding-left: 0.5rem !important;
-  text-align: right !important;
 }
+
