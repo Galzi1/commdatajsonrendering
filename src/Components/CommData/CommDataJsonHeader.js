@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import {Button, Grid, Paper, TableContainer, Table, TableBody, TableRow, TableCell, TextField, TableHead} from '@material-ui/core';
+import React from 'react';
+import {Grid, Paper, TableContainer, Table, TableBody, TableRow, TableCell, TableHead} from '@material-ui/core';
 import '../../App.css';
-import KeyValueTableRow from '../General/KeyValueTableRow';
 import {useCommDataLength} from '../../Utils/CommDataLengthContext';
 
 export default function CommDataJsonHeader(props) {
@@ -26,7 +25,7 @@ export default function CommDataJsonHeader(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    <TableRow>
+                        <TableRow>
                             <TableCell>{id}</TableCell>
                             <TableCell>{name}</TableCell>
                             <TableCell>{source}</TableCell>

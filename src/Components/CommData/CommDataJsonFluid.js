@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import FieldCollection from '../Field/FieldCollection';
 import FieldCollectionFluid from '../Field/FieldCollectionFluid';
-import {Button, Grid, Paper, TableContainer, Table, TableBody, TableRow, TableCell, TextField} from '@material-ui/core';
+import {Button, Grid} from '@material-ui/core';
 import '../../App.css';
 import shortid from 'shortid';
-import KeyValueTableRow from '../General/KeyValueTableRow';
-import GriddedLabelledOutline from '../General/GriddedLabelledOutline';
-import {CommDataLengthProvider, useCommDataLength, useSetCommDataLength} from '../../Utils/CommDataLengthContext';
+import {CommDataLengthProvider, useCommDataLength} from '../../Utils/CommDataLengthContext';
 import CommDataJsonHeader from './CommDataJsonHeader';
 
 export default function CommDataJsonFluid(props) {
@@ -21,7 +18,6 @@ export default function CommDataJsonFluid(props) {
 
     const [commDataFields, setCommDataFields] = useState([]);
     const commDataLength = useCommDataLength();
-    const setCommDataLength = useSetCommDataLength();
 
     useEffect(() => {
         if (!(Object.is(fields, undefined) || Object.is(fields, null))) {
@@ -34,7 +30,6 @@ export default function CommDataJsonFluid(props) {
         if (fieldIndex >= 0) {
             const field = fields[fieldIndex];
             field['value'] = newValue;
-            //TODO: Adjust to length
         };
     };
 

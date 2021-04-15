@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import fieldViewerFactory from './FieldViewerFactory';
-import {getIndexInCollection} from '../../Utils/GeneralUtils';
 import {TableContainer, Table, TableBody, TableRow, TableCell} from '@material-ui/core';
 import shortid from 'shortid';
 import '../../App.css';
@@ -154,7 +153,7 @@ export default function StructViewer(props) {
                 if (!lengthComponents.includes(key)) {
                     compsToRender.push(
                         <TableRow key={shortid.generate()}>
-                            <TableCell className="struct-table-cell">{key}</TableCell>
+                            <TableCell className="text-align-right type-viewer-element">{key}</TableCell>
                             <TableCell>{fieldsCompsDict[key]}</TableCell>
                         </TableRow>
                     );

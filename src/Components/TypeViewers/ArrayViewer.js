@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import NullViewer from './NullViewer';
 import fieldViewerFactory from './FieldViewerFactory';
 import {buildFieldValues} from '../../Utils/TypesUtils';
@@ -64,9 +64,7 @@ export default function ArrayViewer(props) {
 
         if (!(Object.is(index, undefined) || Object.is(index, null)) 
         && index >= 0 && index < arrayLength) {
-            // values[index] = convertString(newValue, field.type);
             values[index] = newValue;
-            //TODO: Adjust to length
 
             if (!(Object.is(onFieldValueUpdated, undefined) || Object.is(onFieldValueUpdated, null))) {
                 onFieldValueUpdated(field.name, values, {"index": arrayIndex})

@@ -8,7 +8,6 @@ import {useCommDataLength, useSetCommDataLength} from '../../Utils/CommDataLengt
 
 export default function DynamicArrayViewer(props) {
     const field = props.field;
-    const onFieldValueUpdated = props.onFieldValueUpdated;
     
     const lengthComponent = props.lengthComponent;
     const initialLength = props.initialLength;
