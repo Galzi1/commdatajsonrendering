@@ -124,6 +124,27 @@
                 ]
             }, 
             {
+                "name": "ArrayLength", 
+                "type": "UInt16", 
+                "isArray": false, 
+                "units": "", 
+                "range": "0-10000", 
+                "scale": "1", 
+                "description": "Length of Dynamic Array", 
+                "value": 1
+            }, 
+            {
+                "name": "DynamicArray1", 
+                "type": "Int32", 
+                "isArray": true, 
+                "units": "", 
+                "range": "", 
+                "scale": "", 
+                "description": "A Dynamic Array Example", 
+                "value": [354], 
+                "lengthField": "ArrayLength"
+            }, 
+            {
                 "name": "Struct1", 
                 "type": "S_StructExample", 
                 "isArray": false, 
