@@ -80,17 +80,17 @@ export default function StructViewer(props) {
                     scale, 
                     description, 
                     lengthField, 
-                } = f //destructuring
+                } = f; //destructuring
 
                 const v = values[name];
                 if (Object.is(v, undefined) || Object.is(v, null)) {
                     break;
-                }
+                };
 
                 const newFieldValue = { name: name, type: type, 
                     isArray: isArray, units: units, range: range, scale: scale, 
                     description: description, lengthField: lengthField, value: v 
-                }
+                };
                 
                 ret.push(newFieldValue);
             }
@@ -115,47 +115,19 @@ export default function StructViewer(props) {
 
         if (!(Object.is(onFieldValueUpdated, undefined) || Object.is(onFieldValueUpdated, null))) {
             onFieldValueUpdated(field.name, values, {"index": arrayIndex})
-        }
+        };
     };
 
     const renderValues = (_innerValues) => {
         if (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues)) {
-            _innerValues.forEach((innerValue) => {
-                let lengthComponent = undefined;
-                if (innerValue.isArray && !(Object.is(innerValue.lengthField, undefined) || Object.is(innerValue.lengthField, null) 
-                || innerValue.lengthField === "") && fieldsCompsDict.hasOwnProperty(innerValue.lengthField)){
-                    lengthComponent = fieldsCompsDict[innerValue.lengthField];
-                    lengthComponents.push(innerValue.lengthField);
-                };
-
-                const initialLength = (!(Object.is(_innerValues, undefined) || Object.is(_innerValues, null)) && Array.isArray(_innerValues))
-                    ? values[innerValue.name].length
-                    : undefined;
-                const comp = (
-                    <div>
-                        {fieldViewerFactory({
-                            field: innerValue, 
-                            enums: enums, 
-                            structs: structs, 
-                            onFieldValueUpdated: onStructValueUpdated, 
-                            lengthComponent: lengthComponent, 
-                            initialLength: initialLength
-                        })}
-                    </div>
-                );
-
-                fieldsCompsDict[innerValue.name] = comp;
-            });
+            updateFieldsCompDict(_innerValues);
 
             // Filter out length components
             const compsToRender = []
             Object.keys(fieldsCompsDict).forEach(key => {
                 if (!lengthComponents.includes(key)) {
                     compsToRender.push(
-                        <TableRow key={shortid.generate()}>
-                            <TableCell className="text-align-right type-viewer-element">{key}</TableCell>
-                            <TableCell>{fieldsCompsDict[key]}</TableCell>
-                        </TableRow>
+                        createValueComponent(key)
                     );
                 };
             }); 
@@ -174,9 +146,48 @@ export default function StructViewer(props) {
         return <NullViewer/>;
     };
 
+    const updateFieldsCompDict = (innerValues) => {
+        innerValues.forEach((innerValue) => {
+            let lengthComponent = undefined;
+            if (innerValue.isArray && !(Object.is(innerValue.lengthField, undefined) || Object.is(innerValue.lengthField, null) 
+            || innerValue.lengthField === "") && fieldsCompsDict.hasOwnProperty(innerValue.lengthField)){
+                lengthComponent = fieldsCompsDict[innerValue.lengthField];
+                lengthComponents.push(innerValue.lengthField);
+            };
+
+            const initialLength = (!(Object.is(innerValues, undefined) || Object.is(innerValues, null))
+             && Array.isArray(innerValues))
+                ? values[innerValue.name].length
+                : undefined;
+            const comp = (
+                <div>
+                    {fieldViewerFactory({
+                        field: innerValue, 
+                        enums: enums, 
+                        structs: structs, 
+                        onFieldValueUpdated: onStructValueUpdated, 
+                        lengthComponent: lengthComponent, 
+                        initialLength: initialLength
+                    })}
+                </div>
+            );
+
+            fieldsCompsDict[innerValue.name] = comp;
+        });
+    };
+
+    const createValueComponent = (key) => {
+        return (
+            <TableRow key={shortid.generate()}>
+                <TableCell className="text-align-right type-viewer-element">{key}</TableCell>
+                <TableCell>{fieldsCompsDict[key]}</TableCell>
+            </TableRow>
+        );
+    };
+
     return (
         <div id="struct-viewer-div">
             {renderValues(innerValues)}
         </div>
-    )
+    );
 }
